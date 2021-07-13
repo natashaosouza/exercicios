@@ -1,14 +1,8 @@
 # Equação do segundo grau
-from math import sqrt
+from numero7_funcao import raizes
 
-a = int(input("Digite o valor do coeficiente a: "))
-b = int(input("Digite o valor do coeficiente b: "))
-c = int(input("Digite o valor do coeficiente c: "))
+coeficiente1 = float(input("Digite o valor do coeficiente a: "))
+coeficiente2 = float(input("Digite o valor do coeficiente b: "))
+coeficiente3 = float(input("Digite o valor do coeficiente c: "))
 
-delta = b**2 - 4 * a * c
-
-def raizes (x1, x2):
-    x1 = (-b + sqrt(delta)) / 2*a
-    x2 = (-b - sqrt(delta)) / 2*a
-    return x1, x2
-
+print(raizes(coeficiente1, coeficiente2, coeficiente3))
