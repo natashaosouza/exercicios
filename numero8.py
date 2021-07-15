@@ -1,12 +1,16 @@
-from math import pi, sin
+from numpy import pi, sin, array
 
 raio = 0.5
 lados = (3, 4, 5, 100, 10_000, 1_000_000)
 
 
 def perimetro(numero_de_lados):
-    return 2 * numero_de_lados * raio * sin(pi / numero_de_lados)
+    """Calcula o perímetro para um dado número de lados
+    numero_de_lados : int, float, lista, tupla
+    return : float ou array
+    """
+    return 2 * array(numero_de_lados) * raio * sin(pi / array(numero_de_lados))
 
 
-for n in lados:
-    print(perimetro(n))
+print(perimetro(lados))
+print(perimetro(10))
