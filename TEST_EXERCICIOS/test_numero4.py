@@ -17,3 +17,6 @@ def test_delta_a_1_b_2_c_1():
 def test_delta_a_4_b_10_c_2():
     assert delta(4, 10, 2) == 68
 
+
+def test_delta_a_5_b_8_c_5():
+    assert delta(5, 8, 5) == -36
