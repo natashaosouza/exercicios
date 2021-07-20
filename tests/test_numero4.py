@@ -1,5 +1,4 @@
 from numero7_funcao import delta
-import pytest
 
 
 def test_delta_a_3_b_7_c_4():

@@ -1,5 +1,4 @@
 from numero2 import V
-import pytest
 
 
 def test_V0_1_a_1_z_1():

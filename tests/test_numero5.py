@@ -1,5 +1,4 @@
 from numero8 import perimetro
-import pytest
 
 
 def test_numero_de_lados():
