@@ -1,4 +1,5 @@
 from numero1 import altura, velocidade
+import pytest
 
 
 def test_altura_inicial_0_velocidade_inicial_0_tempo_1():
@@ -6,7 +7,7 @@ def test_altura_inicial_0_velocidade_inicial_0_tempo_1():
 
 
 def test_altura_inicial_0_velocidade_inicial_1_tempo_1():
-    assert altura(0, 1, 1) == -3.9
+    assert altura(0, 1, 1) == pytest.approx(-3.9, abs=0.001)
 
 
 def test_altura_inicial_1_velocidade_inicial_0_tempo_2():
@@ -22,4 +23,4 @@ def test_velocidade_inicial_1_tempo_2():
 
 
 def test_velocidade_inicial_10_tempo_1():
-    assert velocidade(10, 1) == 0.2
+    assert velocidade(10, 1) == pytest.approx(0.2, abs=0.001)
