@@ -3,14 +3,14 @@ import pytest
 
 
 @pytest.mark.parametrize(
-    "argumentos, esperado", (
-        ((0, 0, 1), -4.9),
-        ((0, 1, 1), -3.9),
-        ((1, 0, 2), -18.6),
+    "altura_inicial, velocidade_inicial, tempo, esperado", (
+        (0, 0, 1, -4.9),
+        (0, 1, 1, -3.9),
+        (1, 0, 2, -18.6),
     )
 )
-def test_altura(argumentos, esperado):
-    assert altura(*argumentos) == pytest.approx(esperado, abs=1E-3)
+def test_altura(altura_inicial, velocidade_inicial, tempo, esperado):
+    assert altura(altura_inicial, velocidade_inicial, tempo) == pytest.approx(esperado, abs=1E-3)
 
 
 @pytest.mark.parametrize(
