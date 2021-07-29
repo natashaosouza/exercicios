@@ -1,4 +1,17 @@
 from numero8 import perimetro
+import pytest
+
+
+@pytest.mark.parametrize(
+    "numero_de_lados, esperado", (
+        (3, 2.598),
+        (4, 2.828),
+        (5, 2.938),
+        (100, 3.141),
+    )
+)
+def test_perimetro(numero_de_lados, esperado):
+    assert perimetro(numero_de_lados) == pytest.approx(esperado, abs=1E-3)
 
 
 def test_numero_de_lados():
