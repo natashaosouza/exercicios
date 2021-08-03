@@ -1,5 +1,5 @@
-GRAVIDADE = 9.8   # m/s^2
 import pint
+GRAVIDADE = 9.8   # m/s^2
 
 ureg = pint.UnitRegistry()
 
@@ -7,7 +7,8 @@ ureg = pint.UnitRegistry()
 # velocidade_inicial = 14.2   # m/s
 # tempo = 0.5  # s
 
-@ureg.wraps('m', ('m', 'm / s', 's'))
+
+@ureg.wraps('m', ('m', 'm / s', 's'), strict=False)
 def altura(altura_inicial, velocidade_inicial, tempo):
     return altura_inicial + velocidade_inicial * tempo - 1/2 * GRAVIDADE * tempo**2
 
