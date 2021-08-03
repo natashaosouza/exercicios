@@ -1,3 +1,9 @@
+import pint
+
+ureg = pint.UnitRegistry()
+
+
+@ureg.wraps('m / s', ('m', 's'))
 def velocidade_media(distancia, tempo):
     """Calcula a velocidade media a partir de distancia e tempo.
 
