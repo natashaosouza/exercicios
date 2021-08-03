@@ -19,9 +19,9 @@ def velocidade_media(distancia, tempo):
     return distancia / tempo
 
 
-x = float(input("Forneça um valor de distância: "))
-t = float(input("Forneça um valor de tempo: "))
+x = input("Forneça um valor de distância com a unidade: ")
+t = input("Forneça um valor de tempo com a unidade: ")
 
 resultado = velocidade_media(x, t)
 
-print(f"A velocidade média é {resultado:.3f}")
+print(f"A velocidade média é {resultado:.3f~P}")
