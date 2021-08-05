@@ -13,7 +13,7 @@ def altura(altura_inicial, velocidade_inicial, tempo):
     return altura_inicial + velocidade_inicial * tempo - 1/2 * GRAVIDADE * tempo**2
 
 
-@ureg.wraps('m / s', ('m / s', 's'))
+@ureg.wraps('m / s', ('m / s', 's'), strict=False)
 def velocidade(velocidade_inicial, tempo):
     return velocidade_inicial - GRAVIDADE * tempo
 

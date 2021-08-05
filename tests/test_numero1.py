@@ -28,11 +28,21 @@ def test_altura_unidades_de_entrada():
 
 
 @pytest.mark.parametrize(
-    "argumentos, esperado", (
-        ((0, 1), -9.8),
-        ((1, 2), -18.6),
-        ((10, 1), 0.2),
+    "velocidade_inicial, tempo, esperado", (
+        (0, 1, -9.8),
+        (1, 2, -19.6),
+        (10, 1, 0.2),
     )
 )
-def test_velocidade(argumentos, esperado):
-    assert velocidade(*argumentos) == pytest.approx(esperado, abs=1E-3)
+def test_velocidade_strict_false(velocidade_inicial, tempo, esperado):
+    resultado = velocidade(velocidade_inicial, tempo)
+    assert resultado.magnitude == pytest.approx(esperado, abs=1E-3)
+    assert resultado.units == 'm / s'
+
+
+def test_velocidade_unidades_de_entrada():
+    velocidade_inicial = Q_('100 cm / s')
+    tempo = Q_('2 s')
+    resultado = velocidade(velocidade_inicial, tempo)
+    assert resultado.magnitude == pytest.approx(-19.6, abs=1E-3)
+    assert resultado.units == 'm / s'
