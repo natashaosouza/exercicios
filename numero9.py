@@ -6,7 +6,7 @@ Q_ = ureg.Quantity
 GAS_CONSTANT = Q_(0.082057366080960, 'atm * l / (mol * K)')
 
 
-@ureg.wraps('liter', ('mol', 'K', 'atm'))
+@ureg.wraps('liter', ('mol', 'K', 'atm'), strict=False)
 def volume_molar(mole_number, temperature, pressure):
     """ Calcula o volume molar de um gás ideal
 
