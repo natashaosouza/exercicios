@@ -6,19 +6,18 @@ Q_ = ureg.Quantity
 GAS_CONSTANT = Q_(0.082057366080960, 'atm * l / (mol * K)')
 
 
-@ureg.wraps('liter', ('mol', 'K', 'atm'), strict=False)
-def volume_molar(mole_number, temperature, pressure):
-    """ Calcula o volume molar de um gás ideal
+@ureg.wraps('liter', ('mol', 'K', 'atm'))
+def volume_ideal(mole_number, temperature, pressure):
+    """Evaluate the volume of an ideal gas
 
-    Parâmetros:
+    Parameters:
     ----------
-    numero de mol
-    constante dos gases
-    temperatura
-    pressão
+    mole_number : pint.Quantity
+    temperature : pint.Quantity
+    pressure : pint.Quantity
 
-    Saída:
-    -----
-    volume molar
+    Return:
+    -------
+    pint.Quantity
     """
     return mole_number * GAS_CONSTANT.magnitude * temperature / pressure
