@@ -16,53 +16,63 @@ class Kinetics:
         self.data_file = data_file
         self.time = self.data_from_file['time'] * ureg(time_unit)
         self.concentration = self.data_from_file['concentration'] * ureg(conc_unit)
+        self._order = None
+
+    @property
+    def order(self):
+        return self._order
+
+    @order.setter
+    def order(self, value):
+        if value in (0, 1, 2):
+            self._order = value
+        else:
+            raise ValueError('Invalid order')
 
     @property
     def data_from_file(self):
         return np.genfromtxt(self.data_file, delimiter=',', dtype=(float, float),
                              names=['time', 'concentration'], skip_header=1)
 
-    def regression(self, order):
-        if order == 0:
+    @property
+    def regression(self):
+        if self.order == 0:
             reg = linregress(self.time.magnitude, self.concentration.magnitude)
-        elif order == 1:
+        elif self.order == 1:
             reg = linregress(self.time.magnitude, np.log(self.concentration.magnitude))
-        elif order == 2:
+        elif self.order == 2:
             reg = linregress(self.time.magnitude, 1/(self.concentration.magnitude))
         else:
-            raise ValueError('Invalid order')
+            raise ValueError('Order not defined')
         return reg
 
-    def linear_fit(self, order):
+    @property
+    def linear_fit(self):
         x = np.linspace(self.time[0].magnitude, self.time[-1].magnitude, 2)
-        y = self.regression(order).slope * x + self.regression(order).intercept
+        y = self.regression.slope * x + self.regression.intercept
         return x, y
 
-    def plot(self, order):
+    @property
+    def rate_constant(self):
+        return abs(self.regression.slope)
+
+    def plot(self):
         fig, ax = plt.subplots(figsize=(8, 6))
         plot_params(ax)
-        if order == 0:
-            ax.plot(*self.linear_fit(0), color='red')
+        ax.plot(*self.linear_fit, color='red')
+        ax.text(0.5, 0.90, f'y = {self.regression.slope:.3e}x + {self.regression.intercept:.3e}',
+                fontsize=14, bbox=dict(facecolor='red', alpha=0.9), color='white',
+                transform=ax.transAxes, horizontalalignment='center')
+        if self.order == 0:
             ax.scatter(self.time, self.concentration)
-            ax.text(0.5, 0.90, f'y = {self.regression(0).slope:.3e}x + {self.regression(0).intercept:.3e}',
-                    fontsize=14, bbox=dict(facecolor='red', alpha=0.9), color='white',
-                    transform=ax.transAxes, horizontalalignment='center')
             ax.set_xlabel(f'Time / {self.time.units:~P}', fontsize=18)
             ax.set_ylabel(f'Concentration / {self.concentration.units:~P}', fontsize=18)
-        elif order == 1:
-            ax.plot(*self.linear_fit(1), color='red')
+        elif self.order == 1:
             ax.scatter(self.time, np.log(self.concentration.magnitude))
-            ax.text(0.5, 0.90, f'y = {self.regression(1).slope:.3e}x + {self.regression(1).intercept:.3e}',
-                    fontsize=14, bbox=dict(facecolor='red', alpha=0.9), color='white',
-                    transform=ax.transAxes, horizontalalignment='center')
             ax.set_xlabel(f'Time / {self.time.units:~P}', fontsize=18)
             ax.set_ylabel(f'ln(Concentration / {self.concentration.units:~P})', fontsize=18)
-        elif order == 2:
-            ax.plot(*self.linear_fit(2), color='red')
+        elif self.order == 2:
             ax.scatter(self.time, 1/(self.concentration.magnitude))
-            ax.text(0.5, 0.90, f'y = {self.regression(2).slope:.3e}x + {self.regression(2).intercept:.3e}',
-                    fontsize=14, bbox=dict(facecolor='red', alpha=0.9), color='white',
-                    transform=ax.transAxes, horizontalalignment='center')
             ax.set_xlabel(f'Time / {self.time.units:~P}', fontsize=18)
             ax.set_ylabel(f'1/(Concentration / {self.concentration.units:~P})', fontsize=18)
         plt.show()
