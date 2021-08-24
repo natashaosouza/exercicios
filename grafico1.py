@@ -25,8 +25,9 @@ fig, ax = plt.subplots(figsize=(8, 6))
 plot_params(ax)
 ax.plot(x, y, color='red')
 ax.scatter(time, concentration)
-ax.text(7.75, 0.90, f'y = {regression_zero_order.slope:.3e}x + {regression_zero_order.intercept:.3e}',
-        fontsize=14, bbox=dict(facecolor='red', alpha=0.9), color='white')
+ax.text(0.5, 0.90, f'y = {regression_zero_order.slope:.3e}x + {regression_zero_order.intercept:.3e}',
+        fontsize=14, bbox=dict(facecolor='red', alpha=0.9), color='white',
+        transform=ax.transAxes, horizontalalignment='center')
 ax.set_xlabel(f'Time / {time.units:~P}', fontsize=18)
 ax.set_ylabel(f'Concentration / {concentration.units:~P}', fontsize=18)
 
@@ -39,9 +40,24 @@ fig, ax = plt.subplots(figsize=(8, 6))
 plot_params(ax)
 ax.plot(x, y, color='red')
 ax.scatter(time, np.log(concentration.magnitude))
-ax.text(7.75, 0.00, f'y = {regression_first_order.slope:.3e}x + {regression_first_order.intercept:.3e}',
-        fontsize=14, bbox=dict(facecolor='red', alpha=0.9), color='white')
+ax.text(0.5, 0.90, f'y = {regression_first_order.slope:.3e}x + {regression_first_order.intercept:.3e}',
+        fontsize=14, bbox=dict(facecolor='red', alpha=0.9), color='white',
+        transform=ax.transAxes, horizontalalignment='center')
 ax.set_xlabel(f'Time / {time.units:~P}', fontsize=18)
 ax.set_ylabel(f'ln(Concentration / {concentration.units:~P})', fontsize=18)
 
+# second order
+regression_second_order = linregress(time.magnitude, 1/(concentration.magnitude))
+x = np.linspace(time[0].magnitude, time[-1].magnitude, 2)
+y = regression_second_order.slope * x + regression_second_order.intercept
+
+fig, ax = plt.subplots(figsize=(8, 6))
+plot_params(ax)
+ax.plot(x, y, color='red')
+ax.scatter(time, 1/(concentration.magnitude))
+ax.text(0.50, 0.90, f'y = {regression_second_order.slope:.3e}x + {regression_second_order.intercept:.3e}',
+        fontsize=14, bbox=dict(facecolor='red', alpha=0.9), color='white',
+        transform=ax.transAxes, horizontalalignment='center')
+ax.set_xlabel(f'Time / {time.units:~P}', fontsize=18)
+ax.set_ylabel(f'1/(Concentration / {concentration.units:~P})', fontsize=18)
 plt.show()
